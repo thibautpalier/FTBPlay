@@ -4,16 +4,31 @@
 
 		// BackEnd Routes
 
+
+		//Receive the credentials from frontEnd try to login
 		app.post('/api/torrent-search/login', function(req, res) {
 
 			var torrentSearch = require('./torrentSearch.js');
 			var credentials = req.body;
-			var err = torrentSearch.loginToTracker(credentials.tracker,credentials.login,credentials.password);
+
+			//TODO: pass a callback method to wait for the login before send res status
+			torrentSearch.loginToTracker(credentials.tracker,credentials.login,credentials.password);
+			console.log(err);
 			if(err){
 				res.send(500);
 			}
-			res.send(200);
+			else{
+				res.send(200);
+			}
 
+		});
+
+		//Send to the front end the enabled trackers (to test the login status)
+		app.get('/api/torrent-search/login', function(req, res) {
+
+			var torrentSearch = require('./torrentSearch.js');
+			var trackers = torrentSearch.getEnabledTrackers();
+			res.send(trackers);
 		});
 
 

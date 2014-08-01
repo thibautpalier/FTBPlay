@@ -18,14 +18,17 @@ var torrents = new TorrentsSearch({
 });
 
 
+//TODO: Add a call back method in parameters
+exports.getEnabledTrackers = function(){
+  var trackers = torrents.getTrackers();
+  return trackers.enabled;
+}
+
 exports.loginToTracker = function(tracker, login, password){
-
- torrents.loadTrackers(function(err) {
-    if(err){
-      console.log(err);
-      return;
+  torrents.loadTrackers(function(err) {
+    if(err) {
+      console.log(err); return;
     }
-
     console.log('Login to tracker ' + tracker);
 
     // Enable a tracker
@@ -38,9 +41,7 @@ exports.loginToTracker = function(tracker, login, password){
         return err;
       }
     });
-
   });
-
 }
 
 exports.torrentsSearch = function(){
