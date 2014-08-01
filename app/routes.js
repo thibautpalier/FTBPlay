@@ -4,12 +4,16 @@
 
 		// BackEnd Routes
 
-		app.get('/api/torrent-search/login', function(req, res) {
+		app.post('/api/torrent-search/login', function(req, res) {
 
 			var torrentSearch = require('./torrentSearch.js');
-			torrentSearch.torrentsSearch();
+			var credentials = req.body;
+			var err = torrentSearch.loginToTracker(credentials.tracker,credentials.login,credentials.password);
+			if(err){
+				res.send(500);
+			}
+			res.send(200);
 
-			res.send(200); // return torrent torrents-search test page
 		});
 
 

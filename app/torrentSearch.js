@@ -19,18 +19,26 @@ var torrents = new TorrentsSearch({
 
 
 exports.loginToTracker = function(tracker, login, password){
-  console:log('Login to tracker ' + tracker);
 
-  // Enable a tracker
-  torrents.enableTracker(tracker);
-  torrents.setCredentials(tracker, login, password);
-
-  torrents.login(function(err){
+ torrents.loadTrackers(function(err) {
     if(err){
-      console.log('Error login to ' + tracker + ' With ' + login + ' login. Error: ' + err);
-      return err;
+      console.log(err);
+      return;
     }
-    return 'OK';
+
+    console.log('Login to tracker ' + tracker);
+
+    // Enable a tracker
+    torrents.enableTracker(tracker);
+    torrents.setCredentials(tracker, login, password);
+
+    torrents.login(function(err){
+      if(err){
+        console.log('Error login to ' + tracker + ' With ' + login + ' login. Error: ' + err);
+        return err;
+      }
+    });
+
   });
 
 }
