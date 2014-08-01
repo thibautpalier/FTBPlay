@@ -1,0 +1,52 @@
+{
+    "name": "FTBPlay",
+    "description": "Stream torrent from famous french tracker",
+    "version": "0.0.1",
+    "homepage": "https://github.com/thibautpalier/FTBPlay",
+    "keywords": [
+        "torrent",
+        "stream",
+        "french"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/thibautpalier/FTBPlay.git"
+    },
+    "bugs": {
+        "url": "https://github.com/thibautpalier/FTBPlay/issues"
+    },
+    "author": {
+        "name": "Thibault Palier",
+        "email": "thibaultpalier@gmail.com",
+        "url": "https://github.com/thibautpalier/"
+    },
+    "contributors": [
+        {
+            "name": "Bertrand Heuillard",
+            "email": "bertrand.heuillard@gmail.com",
+            "url": ""
+        }
+    ],
+    "licenses": [
+        {
+            "type": "MIT",
+            "url": "https://github.com/thibautpalier/FTBPlay/blob/master/LICENSE.txt"
+        }
+    ],
+    "main": "server.js",
+    "engines": {
+        "node": ">= 0.6.x"
+    },
+    "dependencies": {
+		"express" : "~4.5.1",
+		"mongoose" : "~3.8.0",
+		"body-parser" : "~1.4.2",
+		"method-override" : "~2.0.2",
+		"torrents-search" : "0.4.0"
+    },
+    "devDependencies": {
+    },
+    "private": false,
+    "scripts": {
+    }
+}
