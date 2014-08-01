@@ -24,7 +24,7 @@ exports.getEnabledTrackers = function(){
   return trackers.enabled;
 }
 
-exports.loginToTracker = function(tracker, login, password){
+exports.loginToTracker = function(tracker, login, password, callBack){
   torrents.loadTrackers(function(err) {
     if(err) {
       console.log(err); return;
@@ -38,8 +38,9 @@ exports.loginToTracker = function(tracker, login, password){
     torrents.login(function(err){
       if(err){
         console.log('Error login to ' + tracker + ' With ' + login + ' login. Error: ' + err);
-        return err;
+        callBack(err);
       }
+      callBack(err);
     });
   });
 }

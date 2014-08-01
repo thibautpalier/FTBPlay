@@ -10,17 +10,18 @@
 
 			var torrentSearch = require('./torrentSearch.js');
 			var credentials = req.body;
+			console.log('DATA RECEIVE name: ' + credentials.name + ' login: ' + credentials.login + 'password: ' + credentials.password);
 
-			//TODO: pass a callback method to wait for the login before send res status
-			torrentSearch.loginToTracker(credentials.tracker,credentials.login,credentials.password);
-			console.log(err);
-			if(err){
-				res.send(500);
-			}
-			else{
-				res.send(200);
-			}
-
+			torrentSearch.loginToTracker(credentials.name,credentials.login,credentials.password, function(err){
+				if(err){
+					var data = {'Connection' : false, 'err' : err};
+					res.send();
+				}
+				else{
+					var data = {'Connection' : true, 'err' : null};
+					res.send(200, data);
+				}
+			});
 		});
 
 		//Send to the front end the enabled trackers (to test the login status)

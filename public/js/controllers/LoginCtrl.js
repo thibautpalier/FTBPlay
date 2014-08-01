@@ -1,43 +1,38 @@
 angular.module('LoginCtrl', []).controller('LoginController', function($scope, $http) {
 
-  this.isLogin = false;
+  var tracker = function() {
+      this.name = '';
+      this.login = '';
+      this.password = '';
+      this.isLoged = false;
+  };
 
 
-  this.login = function(tracker, login, password){
+  this.login = function(tracker){
+    //TODO: Test wisch tracker want connection
+    tracker.name = 't411';
 
-    var data = {'tracker' : tracker, 'login' : login, 'password' : password};
+    var data = {'name' : tracker.name, 'login' : tracker.login, 'password' : tracker.password};
+    console.log('DATA TO SEND: ' + data.name);
 
     //Send the login credentials to Backend TorrentsSearch
     $http.post("http://127.0.0.1:8080/api/torrent-search/login", data).
         success(function(data, status) {
-            console.log('Sending credentials: Success');
-            //Load the enabled trackers list from backend torrent-search and look if our desired tracker is connected
-            $http.get("http://127.0.0.1:8080/api/torrent-search/login").
-              success(function(data, status) {
-                var trackers = data.body;
+            console.log('Sending credentials: Success ' + status);
 
-                //Browse all the enabled trackers and look if our tracker is ON
-                for (var indexTracker in trackers){
-                   if(trackers[indexTracker] == tracker){
-                     this.isLogin = true;
-                     console.log('Connected to ' + trackers[indexTracker])
-                     return true;
-                   }
-                }
+            if(data.Connection){
+              tracker.isLoged = 'true';
+            }
+            else{
+              tracker.isLoged = 'false';
+            }
 
-                //Our tracker is not present Login FAILED
-                this.isLogin = false;
-                console.log('Not Connected to ' + tracker)
-                return false;
+            console.log('Connection success ? ->  ' + tracker.isLoged + ' ' + status);
 
-              }).error(function(data, status) {
-                console.log('ERROR ' + status);
-              });
         }).error(function(data, status) {
-            console.log('Sending credentials: Error');
-            return false;
+            console.log('Sending credentials: Error ' + status);
+            tracker.isLoged = false;
         });
-
   };
 
 });
