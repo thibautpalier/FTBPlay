@@ -1,7 +1,7 @@
 {
     "name": "FTBPlay",
     "description": "Stream torrent from famous french tracker",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "homepage": "https://github.com/thibautpalier/FTBPlay",
     "keywords": [
         "torrent",
@@ -38,11 +38,11 @@
         "node": ">= 0.6.x"
     },
     "dependencies": {
-		"express" : "~4.5.1",
-		"mongoose" : "~3.8.0",
-		"body-parser" : "~1.4.2",
-		"method-override" : "~2.0.2",
-		"torrents-search" : "0.4.0"
+  		"express" : "~4.5.1",
+  		"mongoose" : "~3.8.0",
+  		"body-parser" : "~1.4.2",
+  		"method-override" : "~2.0.2",
+  		"torrents-search" : "0.4.0"
     },
     "devDependencies": {
     },

@@ -1,17 +1,14 @@
-angular.module('LoginCtrl', []).controller('LoginController', function($scope, $http) {
+angular.module('LoginCtrl', []).controller('LoginController', function($scope, $http, Trackers) {
 
-  var tracker = function() {
-      this.name = '';
-      this.login = '';
-      this.password = '';
-      this.isLoged = false;
-  };
+  this.trackers = Trackers;
+  console.log(this.trackers);
+  console.log('prout');
 
 
   this.login = function(tracker){
     //TODO: Test wisch tracker want connection
-    tracker.name = 't411';
 
+    console.log(tracker);
     var data = {'name' : tracker.name, 'login' : tracker.login, 'password' : tracker.password};
     console.log('DATA TO SEND: ' + data.name);
 
@@ -21,13 +18,13 @@ angular.module('LoginCtrl', []).controller('LoginController', function($scope, $
             console.log('Sending credentials: Success ' + status);
 
             if(data.Connection){
-              tracker.isLoged = 'true';
+              tracker.isLogged = 'true';
             }
             else{
-              tracker.isLoged = 'false';
+              tracker.isLogged = 'false';
             }
 
-            console.log('Connection success ? ->  ' + tracker.isLoged + ' ' + status);
+            console.log('Connection success ? ->  ' + tracker.isLogged + ' ' + status);
 
         }).error(function(data, status) {
             console.log('Sending credentials: Error ' + status);

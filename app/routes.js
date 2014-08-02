@@ -10,26 +10,28 @@
 
 			var torrentSearch = require('./torrentSearch.js');
 			var credentials = req.body;
-			console.log('DATA RECEIVE name: ' + credentials.name + ' login: ' + credentials.login + 'password: ' + credentials.password);
+			console.log('DATA RECEIVE name: ' + credentials.name + ' login: ' + credentials.login + ' password: ' + credentials.password);
 
 			torrentSearch.loginToTracker(credentials.name,credentials.login,credentials.password, function(err){
+				var data;
 				if(err){
-					var data = {'Connection' : false, 'err' : err};
+					data = {'Connection' : false, 'err' : err};
 					res.send();
 				}
 				else{
-					var data = {'Connection' : true, 'err' : null};
+					data = {'Connection' : true, 'err' : null};
 					res.send(200, data);
 				}
 			});
 		});
 
-		//Send to the front end the enabled trackers (to test the login status)
+		//Send to the front end the loged trackers
 		app.get('/api/torrent-search/login', function(req, res) {
 
 			var torrentSearch = require('./torrentSearch.js');
 			var trackers = torrentSearch.getEnabledTrackers();
 			res.send(trackers);
+
 		});
 
 

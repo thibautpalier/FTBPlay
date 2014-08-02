@@ -22,7 +22,7 @@ var torrents = new TorrentsSearch({
 exports.getEnabledTrackers = function(){
   var trackers = torrents.getTrackers();
   return trackers.enabled;
-}
+};
 
 exports.loginToTracker = function(tracker, login, password, callBack){
   torrents.loadTrackers(function(err) {
@@ -32,18 +32,19 @@ exports.loginToTracker = function(tracker, login, password, callBack){
     console.log('Login to tracker ' + tracker);
 
     // Enable a tracker
+    torrents.disableTracker(tracker);
     torrents.enableTracker(tracker);
     torrents.setCredentials(tracker, login, password);
 
     torrents.login(function(err){
       if(err){
-        console.log('Error login to ' + tracker + ' With ' + login + ' login. Error: ' + err);
+        console.log('Error login to ' + tracker + ' with login' + login + ' . Error: ' + err);
         callBack(err);
       }
       callBack(err);
     });
   });
-}
+};
 
 exports.torrentsSearch = function(){
   torrents.loadTrackers(function(err) {
@@ -92,4 +93,4 @@ exports.torrentsSearch = function(){
       });
     });
   });
-}
+};
