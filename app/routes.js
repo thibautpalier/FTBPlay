@@ -54,9 +54,13 @@
 			var torrentSearch = require('./torrentSearch.js');
 
 			console.log('Receiving download querry... ' + req.body.torrent.title)
-			torrentSearch.torrentDownload(req.body.torrent, function(filebufer){
-				console.log(filebufer);
-				res.send(200);
+			torrentSearch.torrentDownload(req.body.torrent, function(err, filePath){
+				if(err){
+					console.log('RESPOND 500');
+					res.send(500);
+				}
+				console.log('RESPOND 200');
+				res.send(200, filePath);
 			});
 		});
 

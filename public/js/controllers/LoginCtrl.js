@@ -14,7 +14,8 @@ angular.module('LoginCtrl', [])
           name : '',
           login : '',
           password : '',
-          isLogged : false
+          isLogged : false,
+          isDownloaded : false
       };
 
       tracker.name = name;

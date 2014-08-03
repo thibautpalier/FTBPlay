@@ -42,7 +42,11 @@
   		"mongoose" : "~3.8.0",
   		"body-parser" : "~1.4.2",
   		"method-override" : "~2.0.2",
-  		"my-torrents-search" : "git://github.com/thibautpalier/node-torrents-search.git"
+  		"my-torrents-search" : "git://github.com/thibautpalier/node-torrents-search.git",
+      "torrent-stream" : "0.13.5",
+      "network-address" :  "git://github.com/mafintosh/network-address.git",
+      "peerflix" : "0.13.2"
+
     },
     "devDependencies": {
     },

@@ -1,7 +1,10 @@
 var TorrentsSearch = require('torrents-search');
+var peerflix = require('peerflix');
 
 var fs = require('fs');
 var path = require('path');
+var proc = require('child_process');
+var address = require('network-address');
 
 // Custom logger (not so custom yet)
 var myLogger = {
@@ -47,7 +50,7 @@ exports.torrentsSearch = function(querry, callBack){
   console.log('Loaded trackers :', torrents.getTrackers());
 
   // Search torrents on all enabled trackers
-  torrents.search(querry, {type: 'movie', quality: 'dvdrip'}, function(err, torrentsFound) {
+  torrents.search(querry, {type: 'movie', quality: 'bluray'}, function(err, torrentsFound) {
     if(err) { console.error(err); return; }
 
     console.log(torrentsFound.length +' torrent(s) found.');
@@ -69,13 +72,60 @@ exports.torrentDownload = function(torrent, callBack){
     }
 
     console.log(torrentFileBuffer);
-    fs.writeFile(path.join(torrentDir, 'torrent.torrent'), torrentFileBuffer, function(err){
+    var filePath = path.join(torrentDir, 'torrent.torrent');
+    fs.writeFile(filePath, torrentFileBuffer, function(err){
       if(err){
         console.error(err);
-        callBack(err);
+        callBack(err, null);
         return;
       }
-    console.log('Downloaded!');
+      console.log('Downloaded!');
+      var torrentStream = require('torrent-stream');
+
+      var engine = peerflix(torrentFileBuffer);
+
+      engine.server.on('listening', function() {
+    		var href = 'http://'+address()+':'+engine.server.address().port+'/';
+        var filename = engine.server.index.name.split('/').pop().replace(/\{|\}/g, '');
+
+        var root = '/Applications/VLC.app/Contents/MacOS/VLC'
+				var home = (process.env.HOME || '') + root
+        var VLC_ARGS = '-q --video-on-top --play-and-exit';
+				var vlc = proc.exec('vlc '+href+' '+VLC_ARGS+' || '+root+' '+href+' '+VLC_ARGS+' || '+home+' '+href+' '+VLC_ARGS, function(error, stdout, stderror){
+					if (error) {
+            console.log(error);
+						process.exit(0);
+					}
+				});
+
+				vlc.on('exit', function(){
+					//if (!argv.n && argv.quit !== false) process.exit(0);
+				});
+      });
+
+      // engine.on('ready', function() {
+      //     engine.files.forEach(function(file) {
+      //         //console.log('filename:', file);
+      //         var stream = file.createReadStream();
+      //         console.log('stream:', stream._engine.path);
+      //
+      //         var root = '/Applications/VLC.app/Contents/MacOS/VLC'
+      //         var home = (process.env.HOME || '') + root
+      //
+      //         process.title = 'FTBPLay';
+      // 				var vlc = proc.exec('vlc -q --video-on-top --play-and-exit', function(error, stdout, stderror){
+      // 					if (error) {
+      // 						//process.exit(0);
+      // 					}
+      // 				});
+      //
+      // 				// vlc.on('exit', function(){
+      // 				// 	 process.exit(0);
+      //         //    console.log('process exiting');
+      // 				// });
+      //     });
+      // });
+      callBack(null, filePath);
     });
 
   });
