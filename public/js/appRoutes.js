@@ -10,7 +10,7 @@
 
 		.when('/login', {
 			templateUrl: 'views/login.html',
-			controller: 'LoginController'	
+			//controller: 'LoginController'	//If uncomment remove the call from login.html
 		});
 
 	$locationProvider.html5Mode(true);

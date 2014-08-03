@@ -42,7 +42,7 @@
   		"mongoose" : "~3.8.0",
   		"body-parser" : "~1.4.2",
   		"method-override" : "~2.0.2",
-  		"torrents-search" : "0.4.0"
+  		"my-torrents-search" : "git://github.com/thibautpalier/node-torrents-search.git"
     },
     "devDependencies": {
     },

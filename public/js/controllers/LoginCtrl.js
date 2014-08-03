@@ -9,7 +9,7 @@ angular.module('LoginCtrl', [])
       'Smartorrent'
     ];
 
-    function g(name){
+    function getTracker(name){
       var tracker = {
           name : '',
           login : '',
@@ -24,10 +24,8 @@ angular.module('LoginCtrl', [])
 
 
     for (i = 0; i < trackerName.length; i++) {
-      trackers.push(g(trackerName[i]));
+      trackers.push(getTracker(trackerName[i]));
     }
-
-    console.log(trackers);
 
     return trackers;
 })
@@ -42,8 +40,6 @@ angular.module('LoginCtrl', [])
 
   this.trackers = Trackers;
   console.log(this.trackers);
-  console.log('prout');
-
 
   this.login = function(tracker){
     //TODO: Test wisch tracker want connection
