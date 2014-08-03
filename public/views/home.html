@@ -10,8 +10,8 @@
 		</form>
 	</div>
 	<div >
-	<div class="list-group" ng-repeat="torrent in torrentsResult">
-	  <a href="{{torrent.detailsUrl}}" class="list-group-item">
+	<div class="list-group" ng-repeat="torrent in torrentsResult" ng-click="main.download(torrent)">
+	  <a href="#" class="list-group-item">
 	    <h4 class="list-group-item-heading">{{torrent.title}}</h4>
 	    <p class="list-group-item-text">Size: {{torrent.size}} </br>Seeders: {{torrent.seeders}} </br> Leechers: {{torrent.leechers}}</p>
 	  </a>

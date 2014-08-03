@@ -19,10 +19,21 @@ angular.module('MainCtrl', []).factory('search', function() {
 		var data = {'searchQuerry' : searchQuerry};
 		$http.post("http://127.0.0.1:8080/api/torrent-search/search", data).
 				success(function(data, status) {
-					console.log('Respond' + data);
+					console.log('Respond ' + data);
 					$scope.torrentsResult = data;
 				}).error(function(data, status) {
-					console.log('Something wrong happends' + status);
+					console.log('Something wrong happends ' + status);
+				});
+	};
+
+	this.download = function(torrent){
+		var data = {'torrent' : torrent};
+		$http.post("http://127.0.0.1:8080/api/torrent-search/download", data).
+				success(function(data, status) {
+					console.log('Respond ' + data);
+					$scope.torrentsResult = data;
+				}).error(function(data, status) {
+					console.log('Something wrong happends ' + status);
 				});
 	};
 

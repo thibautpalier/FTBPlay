@@ -50,22 +50,22 @@ angular.module('LoginCtrl', [])
 
     //Send the login credentials to Backend TorrentsSearch
     $http.post("http://127.0.0.1:8080/api/torrent-search/login", data).
-        success(function(data, status) {
-            console.log('Sending credentials: Success ' + status);
+      success(function(data, status) {
+          console.log('Sending credentials: Success ' + status);
 
-            if(data.Connection){
-              tracker.isLogged = 'true';
-            }
-            else{
-              tracker.isLogged = 'false';
-            }
+          if(data.Connection){
+            tracker.isLogged = 'true';
+          }
+          else{
+            tracker.isLogged = 'false';
+          }
 
-            console.log('Connection success ? ->  ' + tracker.isLogged + ' ' + status);
+          console.log('Connection success ? ->  ' + tracker.isLogged + ' ' + status);
 
-        }).error(function(data, status) {
-            console.log('Sending credentials: Error ' + status);
-            tracker.isLoged = false;
-        });
+      }).error(function(data, status) {
+          console.log('Sending credentials: Error ' + status);
+          tracker.isLoged = false;
+      });
   };
 
 });

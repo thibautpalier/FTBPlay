@@ -46,6 +46,20 @@
 			});
 		});
 
+	// ============================ DOWNLOAD =============================
+
+
+		app.post('/api/torrent-search/download', function(req, res) {
+
+			var torrentSearch = require('./torrentSearch.js');
+
+			console.log('Receiving download querry... ' + req.body.torrent.title)
+			torrentSearch.torrentDownload(req.body.torrent, function(filebufer){
+				console.log(filebufer);
+				res.send(200);
+			});
+		});
+
 
 
 	// ============================ =============== =============================

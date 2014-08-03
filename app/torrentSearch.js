@@ -1,5 +1,7 @@
 var TorrentsSearch = require('torrents-search');
+
 var fs = require('fs');
+var path = require('path');
 
 // Custom logger (not so custom yet)
 var myLogger = {
@@ -18,12 +20,6 @@ var torrents = new TorrentsSearch({
 });
 
 
-//TODO: Add a call back method in parameters
-exports.getEnabledTrackers = function(){
-  var trackers = torrents.getTrackers();
-  return trackers.enabled;
-};
-
 exports.loginToTracker = function(tracker, login, password, callBack){
   torrents.loadTrackers(function(err) {
     if(err) {
@@ -32,7 +28,6 @@ exports.loginToTracker = function(tracker, login, password, callBack){
     console.log('Login to tracker ' + tracker);
 
     // Enable a tracker
-    torrents.disableTracker(tracker);
     torrents.enableTracker(tracker);
     torrents.setCredentials(tracker, login, password);
 
@@ -46,39 +41,42 @@ exports.loginToTracker = function(tracker, login, password, callBack){
   });
 };
 
+
 exports.torrentsSearch = function(querry, callBack){
-  torrents.loadTrackers(function(err) {
-    if(err) { console.log(err); return; }
+  //Display all loaded trackers
+  console.log('Loaded trackers :', torrents.getTrackers());
 
-    // Display all loaded trackers
-    console.log('Loaded trackers :', torrents.getTrackers());
+  // Search torrents on all enabled trackers
+  torrents.search(querry, {type: 'movie', quality: 'dvdrip'}, function(err, torrentsFound) {
+    if(err) { console.error(err); return; }
 
-    // // Enable a tracker
-    // torrents.enableTracker('t411');
-    // torrents.setCredentials('t411', 'USERNAME', 'PASSWORD');
+    console.log(torrentsFound.length +' torrent(s) found.');
 
-    // Enable a tracker
-    // torrents.enableTracker('FrenchTorrentDB');
-    // torrents.setCredentials('FrenchTorrentDB', 'TI80', 'youpi2356');
+    callBack(torrentsFound);
+  });
+};
 
-    // // Enable a tracker
-    // torrents.enableTracker('Smartorrent');
-    // torrents.setCredentials('Smartorrent', 'USERNAME', 'PASSWORD');
+exports.torrentDownload = function(torrent, callBack){
+  var torrentDir = path.join(__dirname, 'torrent/');
+  //Display all loaded trackers
+  console.log('Loaded trackers :', torrents.getTrackers());
 
-    // Search torrents on all enabled trackers
-    torrents.search(querry, {type: 'movie', quality: 'dvdrip'}, function(err, torrentsFound) {
-      if(err) { console.error(err); return; }
+  torrents.download(torrent, function(err, torrentFileBuffer) {
+    if(err) {
+      console.error(err);
+      callBack(err);
+      return;
+    }
 
-      console.log(torrentsFound.length +' torrent(s) found.');
-
-      console.log('Downloading first torrent :');
-
-
-      for (var indexTorrent in torrentsFound){
-         //console.log(torrentsFound[indexTorrent]);
+    console.log(torrentFileBuffer);
+    fs.writeFile(path.join(torrentDir, 'torrent.torrent'), torrentFileBuffer, function(err){
+      if(err){
+        console.error(err);
+        callBack(err);
+        return;
       }
-
-      callBack(torrentsFound);
+    console.log('Downloaded!');
     });
+
   });
 };
