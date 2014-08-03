@@ -46,7 +46,7 @@ exports.loginToTracker = function(tracker, login, password, callBack){
   });
 };
 
-exports.torrentsSearch = function(){
+exports.torrentsSearch = function(querry, callBack){
   torrents.loadTrackers(function(err) {
     if(err) { console.log(err); return; }
 
@@ -66,7 +66,7 @@ exports.torrentsSearch = function(){
     // torrents.setCredentials('Smartorrent', 'USERNAME', 'PASSWORD');
 
     // Search torrents on all enabled trackers
-    torrents.search('matrix la matrice', {type: 'movie', quality: 'dvdrip'}, function(err, torrentsFound) {
+    torrents.search(querry, {type: 'movie', quality: 'dvdrip'}, function(err, torrentsFound) {
       if(err) { console.error(err); return; }
 
       console.log(torrentsFound.length +' torrent(s) found.');
@@ -75,22 +75,10 @@ exports.torrentsSearch = function(){
 
 
       for (var indexTorrent in torrentsFound){
-         console.log(torrentsFound[indexTorrent]);
+         //console.log(torrentsFound[indexTorrent]);
       }
 
-
-      torrents.download(torrentsFound[0], function(err, torrentFileBuffer) {
-        if(err) { console.error(err); return; }
-
-        fs.writeFile('torrent.torrent', torrentFileBuffer, function (err) {
-          if (err) {
-            throw err;
-          }
-            console.log('It\'s saved!');
-          });
-
-        console.log(torrentFileBuffer);
-      });
+      callBack(torrentsFound);
     });
   });
 };

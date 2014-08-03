@@ -1,10 +1,8 @@
 	module.exports = function(app) {
 
-		// server routes ===========================================================
+// ============================ BackEnd routes =============================
 
-		// BackEnd Routes
-
-
+	// ============================ LOGIN =============================
 		//Receive the credentials from frontEnd try to login
 		app.post('/api/torrent-search/login', function(req, res) {
 
@@ -34,12 +32,27 @@
 
 		});
 
+	// ============================ SEARCH =============================
 
-		// route to handle creating (app.post)
-		// route to handle delete (app.delete)
 
-		// ============================ frontend routes =============================
-    // load public/views/index.html file (angular will do the frontend routing)
+		app.post('/api/torrent-search/search', function(req, res) {
+
+			var torrentSearch = require('./torrentSearch.js');
+
+			console.log('Receiving search querry... ' + req.body.searchQuerry)
+			torrentSearch.torrentsSearch(req.body.searchQuerry, function(result){
+				console.log(result);
+				res.send(200, result);
+			});
+		});
+
+
+
+	// ============================ =============== =============================
+	// ============================ frontend routes =============================
+	// ============================ =============== =============================
+
+    // angular will do the frontend routing
 		app.get('*', function(req, res) {
 			res.sendfile('./public/views/index.html');
 		});
